@@ -1,19 +1,19 @@
-var routerApp = angular.module('routerApp', ['ui.router']); //引入相应模块
-routerApp.config(function($stateProvider, $urlRouterProvider) {
+var app = angular.module('routerApp', ['ui.router']); //引入相应模块
+app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/index'); //找到相应路由调到制定的路由页面
     $stateProvider
-        .state('index', {  //首页
-            url: '/index',
+        .state('index', { //首页
+            url: '/index?a&page&size',
             views: {
-                '': { //首先渲染tpls3/index.html 模板页面
-                    templateUrl: 'tpls3/index.html'
+                '': { //首先渲染partial/index.html 模板页面
+                    templateUrl: 'partial/index.html'
                 },
                 'topbar@index': { //topbar@index 表示渲染index.html 中相应的 ui-view="topbar"
-                    templateUrl: 'tpls3/topbar.html'
+                    templateUrl: 'partial/topbar.html'
                 },
                 'main@index': { //同上
-                    templateUrl: 'tpls3/home.html',
-                    controller: 'homeController'  //定义首页控制器
+                    templateUrl: 'partial/home.html',
+                    controller: 'homeController' //定义首页控制器
                 }
             }
         })
@@ -21,7 +21,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             url: '/usermng',
             views: {
                 'main@index': {
-                    templateUrl: 'tpls3/usermng.html',
+                    templateUrl: 'partial/usermng.html',
                     controller: function($scope, $state) {
                         $scope.addUserType = function() {
                             $state.go("index.usermng.addusertype");
@@ -32,19 +32,19 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('index.usermng.highendusers', {
             url: '/highendusers',
-            templateUrl: 'tpls3/highendusers.html'
+            templateUrl: 'partial/highendusers.html'
         })
         .state('index.usermng.normalusers', {
             url: '/normalusers',
-            templateUrl: 'tpls3/normalusers.html'
+            templateUrl: 'partial/normalusers.html'
         })
         .state('index.usermng.lowusers', {
             url: '/lowusers',
-            templateUrl: 'tpls3/lowusers.html'
+            templateUrl: 'partial/lowusers.html'
         })
         .state('index.usermng.addusertype', {
             url: '/addusertype',
-            templateUrl: 'tpls3/addusertypeform.html',
+            templateUrl: 'partial/addusertypeform.html',
             controller: function($scope, $state) {
                 //返回上一级
                 $scope.backToPrevious = function() {
@@ -64,7 +64,7 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
             url: '/report',
             views: {
                 'main@index': {
-                    templateUrl: 'tpls3/report.html'
+                    templateUrl: 'partial/report.html'
                 }
             }
         })
@@ -74,13 +74,37 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
                 // absolutely targets the unnamed view in root unnamed state.
                 // <div ui-view/> within index.html
                 '@': {
-                   templateUrl: 'tpls3/settings.html',
+                    templateUrl: 'partial/settings.html',
                 }
             }
         })
 });
 
 //homeController
-routerApp.controller('homeController',function($scope) {
+app.controller('homeController', function($http, $location, $q, $rootScope, $scope, $state, $stateParams, $window, $timeout) {
+
+    // toolbar
+    $scope.toolbar = '/appRoute/partial/toolbar.html'
     $scope.home = '欢迎来到首页'
+    console.log($stateParams)
+    $scope.click = function(reg) {
+        $http.post('/api/test/test1', {
+            x: 1,
+            y: 2,
+            z: reg
+        }).success(function(response) {
+            console.log('response', response)
+        })
+    }
 })
+
+//directive
+app.directive('myButton', function() {
+    return {
+        link: function(scope, element, attribute) {
+            console.log('我是自定义指令，在这里写代码')
+        }
+    }
+})
+
+angular.bootstrap(document, ['routerApp']);
