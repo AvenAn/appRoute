@@ -18,6 +18,7 @@ require.config({
 
 //定义加载模块
 var APP = {};
+//module 对应的路径名
 APP.load = function(module) {
     require(['angular', module], function(angular) {
         angular.element(document).ready(function() {
