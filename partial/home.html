@@ -1,11 +1,12 @@
 <div class="jumbotron text-center">
     <h2 ng-bind="home"></h2>
-    <p><span my-button>这是自定义指</span></p>
+    <p><span my-button>这是自定义指令,并且引入jquery改变颜色</span></p>
     <p>
         <button ng-click="click('a')">点击发送ajax请求</button>
     </p>
     <div ng-include="toolbar"></div>
     <p>
-        首页的形式一般比较<span class="text-danger">灵活</span>，而且可能随时发生变化。
+        <span>这里是完成这个需求:</span>
+        <div>通过引入require.js实现模块化，路由切换对应的页面，在这个对应的controller中对应的业务代码，（且，这些控制器在不同的对应controller---js文件写，不是一个js文件中，实现开发人员的分工）</div>
     </p>
 </div>

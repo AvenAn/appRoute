@@ -6,7 +6,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/index?a&page&size',
             views: {
                 '': { //首先渲染partial/index.html 模板页面
-                    templateUrl: 'partial/index.html'
+                    templateUrl: 'partial/index.html',
+                    controller: 'navController'
                 },
                 'topbar@index': { //topbar@index 表示渲染index.html 中相应的 ui-view="topbar"
                     templateUrl: 'partial/topbar.html'
@@ -85,7 +86,7 @@ app.controller('homeController', function($http, $location, $q, $rootScope, $sco
 
     // toolbar
     $scope.toolbar = '/appRoute/partial/toolbar.html'
-    $scope.home = '欢迎来到首页'
+    $scope.home = '欢迎来到首页homeController'
     console.log($stateParams)
     $scope.click = function(reg) {
         $http.post('/api/test/test1', {
@@ -96,6 +97,12 @@ app.controller('homeController', function($http, $location, $q, $rootScope, $sco
             console.log('response', response)
         })
     }
+})
+
+//
+app.controller('navController', function($http, $location, $q, $rootScope, $scope, $state, $stateParams, $window, $timeout) {
+    // toolbar
+    $scope.home = '欢迎来到首页navController'
 })
 
 //directive
